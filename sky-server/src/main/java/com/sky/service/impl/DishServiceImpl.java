@@ -77,7 +77,7 @@ public class DishServiceImpl implements DishService {
     @Override
     @Transactional
     public void deleteBatch(List<Long> ids) {
-        // 判断当前菜品是否为起售状态
+        // 判断当前菜品是否为启售状态
         ids.forEach(id -> {
             Dish dish = dishMapper.getById(id);
             if (dish.getStatus() == StatusConstant.ENABLE) {
@@ -150,5 +150,19 @@ public class DishServiceImpl implements DishService {
                 .status(status)
                 .build();
         dishMapper.update(dish);
+    }
+
+    /**
+     * 分组查询菜品
+     * @param categoryId
+     * @return
+     */
+    @Override
+    public List<Dish> groupBy(Long categoryId) {
+        Dish dish = Dish.builder()
+                .categoryId(categoryId)
+                .status(StatusConstant.ENABLE)
+                .build();
+        return dishMapper.groupBy(dish);
     }
 }

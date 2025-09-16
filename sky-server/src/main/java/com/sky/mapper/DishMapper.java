@@ -57,4 +57,11 @@ public interface DishMapper {
      */
     @AutoFill(OperationType.UPDATE)
     void update(Dish dish);
+
+    /**
+     * 分组查询
+     * @param dish
+     * @return
+     */
+    List<Dish> groupBy(Dish dish);
 }
