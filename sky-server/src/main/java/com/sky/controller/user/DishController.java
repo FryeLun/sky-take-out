@@ -62,7 +62,12 @@ public class DishController {
         list = dishService.listWithFlavor(dish);
 
         //将查询到的数据载入缓存
-        stringRedisTemplate.opsForValue().set(key, list.toString());
+        try {
+            String jsonCache = objectMapper.writeValueAsString(list); // 生成JSON格式字符串
+            stringRedisTemplate.opsForValue().set(key, jsonCache);
+        } catch (JsonProcessingException e) {
+            log.error("Redis缓存序列化失败", e);
+        }
 
         return Result.success(list);
     }
